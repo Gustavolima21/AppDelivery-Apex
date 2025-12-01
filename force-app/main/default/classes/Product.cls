@@ -1,8 +1,8 @@
 public with sharing class Product {
-    String name {get; set;}
-    Double value {get; set;}
+    public String name {get; set;}
+    public Decimal value {get; set;}
 
-    public Product(String name, Double value) {
+    public Product(String name, Decimal value) {
         this.name = name;
         this.value = value;
     }

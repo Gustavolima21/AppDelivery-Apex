@@ -34,26 +34,46 @@ public with sharing class Restaurant {
         }
     }
 
-    public void menuDisplay() {
+    public void removeProduct(String productName) {
         for(Integer i = 0; i < menu.size(); i++) {
-            System.debug((i + 1) +'.' + menu[i].name + ' - ' + 'R$'+ menu[i].value);
+            if(menu[i].name == productName) {
+                System.debug('Produto removido: ' + menu[i]);
+                menu.remove(i);
+            }else {
+                System.debug('Este produto não foi encontrado!');
+            }
         }
     }
 
-    public List<Product> searchProducts(String productName) {
-        List<Product> foundProducts = new List<Product>();
+    public Boolean menuDisplay() {
+        Boolean menuExisting = false;
+
+        if(menu.size() > 0) {
+            for(Integer i = 0; i < menu.size(); i++) {
+                System.debug((i + 1) +'.' + menu[i].name + ' - ' + 'R$'+ menu[i].value);   
+            }   
+            menuExisting = true;
+        } else {
+            System.debug('Menu Vazio!');
+        }
+
+        System.debug(menuExisting);
+        return menuExisting;
+    }
+
+    public List<String> searchProducts(String productName) {
+        List<String> foundProducts = new List<String>();
+        
         for(Integer i = 0; i < menu.size(); i++) {
-            if(menu[i].name == productName) {
-                foundProducts.add(menu[i]);
+            if(menu[i].name.toLowerCase().contains(productName.toLowerCase())) {
+                foundProducts.add(menu[i].name);
             }
         }
 
-        if(!foundProducts.isEmpty()) {
-            System.debug('Produto encontrado!');
-            return foundProducts; 
-        } else {
-            System.debug('Produto não encontrado!');
-            return foundProducts;
-        }
+        if(foundProducts.isEmpty()) {
+            System.debug('Produto não encontrado para ' + productName );
+        } 
+        
+        return foundProducts;
     }
 }

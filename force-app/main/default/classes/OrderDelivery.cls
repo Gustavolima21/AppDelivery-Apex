@@ -8,7 +8,7 @@ public with sharing class OrderDelivery {
     Client client {get; set;}
     Restaurant restaurant {get; set;}
     List<OrderItemDelivery> itens;
-    OrderStatus status {get; set;}
+    public OrderStatus status {get; set;}
 
     public OrderDelivery(Client client, Restaurant restaurant, List<OrderItemDelivery> itens, OrderStatus status) {
         this.client = client;
@@ -20,7 +20,6 @@ public with sharing class OrderDelivery {
     public void addProduct(Product newProduct, Integer quantity) {
         Boolean productExistMenu = false;
         Boolean productFoundOrders = false;
-        Boolean productNotExist = false;
 
         for(Integer i = 0; i < restaurant.menu.size(); i++) {
             if(restaurant.menu[i].name == newProduct.name) {
@@ -48,7 +47,7 @@ public with sharing class OrderDelivery {
         }
     }
 
-    public void calculateTotal() {
+    public Decimal calculateTotal() {
         Decimal totalValues = 0;
 
         for(Integer i = 0; i < itens.size(); i++) {
@@ -56,10 +55,11 @@ public with sharing class OrderDelivery {
         }
 
         System.debug('Total da conta: R$' + totalValues);
+        return totalValues;
     }
     
     public void confirmeOrder() {
-        if(status == OrderStatus.CARRINHO) {
+        if(status == OrderStatus.CARRINHO && itens.size() > 0) {
             status = OrderStatus.EM_PROCESSAMENTO;
             System.debug('Pedido Confirmado!');
         } else {

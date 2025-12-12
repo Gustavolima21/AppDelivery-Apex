@@ -1,18 +1,30 @@
-# Salesforce DX Project: Next Steps
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+* **Objetivo:** sincronizar a existência e os dados de `AccountTeamMember__c` com as alterações realizadas em `AssociatedLocation__c` de forma automática e segura.
+* **Principais comportamentos:**
 
-## How Do You Plan to Deploy Your Changes?
+  * **Insert:** ao criar um `AssociatedLocation__c`, é criado um `AccountTeamMember__c` apontando para o mesmo Usuário e Conta, desde que não exista já outro `AccountTeamMember__c` com o mesmo par Conta–Usuário.
+  * **Delete:** ao excluir um `AssociatedLocation__c`, o `AccountTeamMember__c` correspondente é removido apenas se não existirem outras `AssociatedLocation__c` vinculadas ao mesmo par Conta–Usuário.
+  * **Update:** se um `AssociatedLocation__c` tiver sua Conta ou Usuário alterados, o `AccountTeamMember__c` relacionado é atualizado para refletir tais mudanças.
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+---
 
-## Configure Your Salesforce DX Project
+## Tecnologias
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+* Apex (Triggers, Trigger Handler)
+* SOQL / DML
+* Salesforce Platform (custom objects)
 
-## Read All About It
+---
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+## Boas práticas aplicadas
+
+* **Bulkification:** todas as operações foram projetadas para tratar listas e evitar limites de governança.
+* **Uso eficiente de SOQL/DML:** consultas e DML otimizados, reduzindo chamadas desnecessárias.
+* **Coleções:** uso de `Map<Id, List<SObject>>`, `Set<Id>` e `List<SObject>` para agrupar e processar dados em lote.
+* **Arquitetura:** organização via *Trigger Handler* para separar lógica de negócio, favorecendo manutenção e testabilidade.
+* **Validações:** checagens explícitas para impedir duplicidades e exclusões indevidas.
+
+
+
+
+

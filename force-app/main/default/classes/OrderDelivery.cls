@@ -5,9 +5,9 @@ public with sharing class OrderDelivery {
         ENTREGUE
     }
 
-    Client client {get; set;}
-    Restaurant restaurant {get; set;}
-    List<OrderItemDelivery> itens;
+    public Client client {get; set;}
+    public Restaurant restaurant {get; set;}
+    public List<OrderItemDelivery> itens;
     public OrderStatus status {get; set;}
 
     public OrderDelivery(Client client, Restaurant restaurant, List<OrderItemDelivery> itens, OrderStatus status) {
